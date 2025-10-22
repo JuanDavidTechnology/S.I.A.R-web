@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Panel Principal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background-color: rgb(241, 241, 241);
+    }
+
+    main {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .modulo {
+      display: none;
+    }
+
+    .modulo.activo {
+      display: block;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-around;
+      background-color: #002c5a;
+      color: white;
+      padding: 10px 0;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+    }
+
+    nav div {
+      text-align: center;
+      flex: 1;
+      cursor: pointer;
+      font-size: 0.85em;
+    }
+
+    nav div:hover {
+      background-color: #34495e;
+    }
+
+    nav div span {
+      display: block;
+      font-size: 1.4em;
+    }
+
+    h1 {
+      color: #2c3e50;
+    }
+
+    .contenido {
+      padding-bottom: 70px; /* para dejar espacio al menú inferior */
+    }
+
+    /* === Diseño interno del Módulo de Usuario === */
+    .usuario-layout {
+      display: flex;
+      gap: 20px;
+    }
+
+    .usuario-opciones {
+      flex: 0 0 250px;
+    }
+
+    .usuario-opciones button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: none;
+      border-radius: 6px;
+      background-color: #fff;
+      text-align: left;
+      cursor: pointer;
+      font-size: 1em;
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .usuario-opciones button:hover {
+      background-color: #f0f0f0;
+    }
+
+    .usuario-contenido {
+      flex: 1;
+      background-color: white;
+      padding: 20px;
+      border-radius: 6px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      min-height: 150px;
+    }
+
+    /* === RESPONSIVE === */
+    @media screen and (max-width: 768px) {
+      .usuario-layout {
+        flex-direction: column;
+      }
+
+      .usuario-opciones {
+        width: 100%;
+        flex: none;
+      }
+
+      .usuario-opciones button {
+        font-size: 1em;
+      }
+
+      .usuario-contenido {
+        width: 100%;
+      }
+
+      nav div {
+        font-size: 0.75em;
+      }
+
+      nav div span {
+        font-size: 1.2em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="contenido">
+    <!-- Módulo Usuario -->
+    <div id="usuario" class="modulo activo">
+      <h1>👤 Módulo de Usuario</h1>
+      <p>Información del usuario, perfil, ajustes personales, etc.</p>
+
+      <div class="usuario-layout">
+        <!-- Opciones -->
+        <div class="usuario-opciones">
+          <button onclick="mostrarOpcionUsuario('eliminar')">🗑️ Eliminar usuario</button>
+          <button onclick="mostrarOpcionUsuario('cerrar')">🔒 Cerrar sesión</button>
+          <button onclick="mostrarOpcionUsuario('cambio')">🔄 Cambio rápido de usuario</button>
+          <button onclick="mostrarOpcionUsuario('alertas')">🚨 Alertas de sesiones</button>
+        </div>
+
+        <!-- Contenido de la opción -->
+        <div class="usuario-contenido" id="contenido-usuario">
+          <p>Selecciona una opción a la izquierda para ver los detalles aquí.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Módulos adicionales -->
+    <div id="control" class="modulo">
+      <h1>🎛️ Módulo de Control</h1>
+      <p>Panel de control para supervisar y administrar el sistema.</p>
+    </div>
+
+    <div id="configuracion" class="modulo">
+      <h1>⚙️ Módulo de Configuración</h1>
+      <p>Preferencias del sistema, ajustes de cuenta y más.</p>
+    </div>
+
+    <div id="manual" class="modulo">
+      <h1>📘 Manual de Usuario</h1>
+      <p>Guía para el uso correcto de la aplicación o sistema.</p>
+    </div>
+
+    <div id="leyes" class="modulo">
+      <h1>⚖️ Leyes y Creadores</h1>
+      <p>Información legal, derechos de autor y créditos.</p>
+    </div>
+  </main>
+
+  <!-- Menú inferior -->
+  <nav>
+    <div onclick="mostrarModulo('control')">
+      <span>🎛️</span>
+      Control
+    </div>
+    <div onclick="mostrarModulo('manual')">
+      <span>📘</span>
+      Manual
+    </div>
+    <div onclick="mostrarModulo('usuario')">
+      <span>👤</span>
+      Usuario
+    </div>
+    <div onclick="mostrarModulo('leyes')">
+      <span>⚖️</span>
+      Leyes
+    </div>
+    <div onclick="mostrarModulo('configuracion')">
+      <span>⚙️</span>
+      Configuración
+    </div>
+  </nav>
+
+  <!-- Script -->
+  <script>
+    function mostrarModulo(id) {
+      const modulos = document.querySelectorAll('.modulo');
+      modulos.forEach(mod => mod.classList.remove('activo'));
+      document.getElementById(id).classList.add('activo');
+    }
+
+    function mostrarOpcionUsuario(opcion) {
+      const contenedor = document.getElementById("contenido-usuario");
+      let contenido = "";
+
+      switch (opcion) {
+        case 'eliminar':
+          contenido = "<h3>Eliminar Usuario</h3><p>Esta opción permite eliminar al usuario actual del sistema. Asegúrese de guardar los datos antes de continuar.</p>";
+          break;
+        case 'cerrar':
+          contenido = "<h3>Cerrar Sesión</h3><p>Utilice esta opción para cerrar su sesión de manera segura.</p>";
+          break;
+        case 'cambio':
+          contenido = "<h3>Cambio Rápido de Usuario</h3><p>Permite cambiar entre usuarios sin cerrar la sesión actual completamente.</p>";
+          break;
+        case 'alertas':
+          contenido = "<h3>Alertas de Sesiones</h3><p>Aquí verá alertas relacionadas con inicios de sesión sospechosos o múltiples sesiones activas.</p>";
+          break;
+        default:
+          contenido = "<p>Seleccione una opción para ver su contenido.</p>";
+      }
+
+      contenedor.innerHTML = contenido;
+    }
+  </script>
+</body>
+</html>
+
+
