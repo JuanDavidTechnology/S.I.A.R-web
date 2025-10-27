@@ -1,237 +1,476 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Panel Principal</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      background-color: rgb(241, 241, 241);
-    }
+    <meta charset="UTF-8" />
+    <title>Panel Principal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: rgb(241, 241, 241);
+        }
 
-    main {
-      flex: 1;
-      padding: 20px;
-      overflow-y: auto;
-    }
+        main {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
 
-    .modulo {
-      display: none;
-    }
+        .modulo {
+            display: none;
+        }
 
-    .modulo.activo {
-      display: block;
-    }
+        .modulo.activo {
+            display: block;
+        }
 
-    nav {
-      display: flex;
-      justify-content: space-around;
-      background-color: #002c5a;
-      color: white;
-      padding: 10px 0;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-      z-index: 100;
-    }
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #002c5a;
+            color: white;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+        }
 
-    nav div {
-      text-align: center;
-      flex: 1;
-      cursor: pointer;
-      font-size: 0.85em;
-    }
+        nav div {
+            text-align: center;
+            flex: 1;
+            cursor: pointer;
+            font-size: 0.85em;
+        }
 
-    nav div:hover {
-      background-color: #34495e;
-    }
+        nav div:hover {
+            background-color: #34495e;
+        }
 
-    nav div span {
-      display: block;
-      font-size: 1.4em;
-    }
+        nav div span {
+            display: block;
+            font-size: 1.4em;
+        }
 
-    h1 {
-      color: #2c3e50;
-    }
+        h1 {
+            color: #2c3e50;
+        }
 
-    .contenido {
-      padding-bottom: 70px; /* para dejar espacio al menú inferior */
-    }
+        .contenido {
+            padding-bottom: 70px; /* espacio al menú inferior */
+        }
 
-    /* === Diseño interno del Módulo de Usuario === */
-    .usuario-layout {
-      display: flex;
-      gap: 20px;
-    }
+        /* === Diseño interno del Módulo de Usuario === */
+        .usuario-layout {
+            display: flex;
+            gap: 20px;
+        }
 
-    .usuario-opciones {
-      flex: 0 0 250px;
-    }
+        .usuario-opciones {
+            flex: 0 0 250px;
+        }
 
-    .usuario-opciones button {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      border: none;
-      border-radius: 6px;
-      background-color: #fff;
-      text-align: left;
-      cursor: pointer;
-      font-size: 1em;
-      box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
-    }
+        .usuario-opciones button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 6px;
+            background-color: #fff;
+            text-align: left;
+            cursor: pointer;
+            font-size: 1em;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+        }
 
-    .usuario-opciones button:hover {
-      background-color: #f0f0f0;
-    }
+        .usuario-opciones button:hover {
+            background-color: #f0f0f0;
+        }
 
-    .usuario-contenido {
-      flex: 1;
-      background-color: white;
-      padding: 20px;
-      border-radius: 6px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-      min-height: 150px;
-    }
+        .usuario-contenido {
+            flex: 1;
+            background-color: white;
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            min-height: 150px;
+        }
 
-    /* === RESPONSIVE === */
-    @media screen and (max-width: 768px) {
-      .usuario-layout {
-        flex-direction: column;
-      }
+        /* === Estilos del Joystick (Módulo Control) === */
+        #joystick-base {
+            width: 250px;
+            height: 250px;
+            background-color: #e0e0e0;
+            border-radius: 50%;
+            position: relative;
+            margin: 30px auto;
+            border: 6px solid #606060;
+            touch-action: none;
+        }
 
-      .usuario-opciones {
-        width: 100%;
-        flex: none;
-      }
+        #joystick-handle {
+            width: 80px;
+            height: 80px;
+            background-color: #007bff;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            cursor: grab;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+            border: 3px solid white;
+        }
 
-      .usuario-opciones button {
-        font-size: 1em;
-      }
+        #output {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 300px;
+            margin: 20px auto;
+            white-space: pre; 
+            text-align: left;
+        }
 
-      .usuario-contenido {
-        width: 100%;
-      }
+        .direction-arrow {
+            font-size: 24px;
+            font-weight: bold;
+            color: #002c5a;
+            display: inline-block;
+            width: 30px;
+            text-align: center;
+        }
 
-      nav div {
-        font-size: 0.75em;
-      }
+        /* === RESPONSIVE === */
+        @media screen and (max-width: 768px) {
+            .usuario-layout {
+                flex-direction: column;
+            }
 
-      nav div span {
-        font-size: 1.2em;
-      }
-    }
-  </style>
+            .usuario-opciones {
+                width: 100%;
+                flex: none;
+            }
+
+            .usuario-contenido {
+                width: 100%;
+            }
+
+            nav div {
+                font-size: 0.75em;
+            }
+
+            nav div span {
+                font-size: 1.2em;
+            }
+            
+            #joystick-base {
+                width: 200px;
+                height: 200px;
+            }
+            
+            #joystick-handle {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <main class="contenido">
-    <!-- Módulo Usuario -->
-    <div id="usuario" class="modulo activo">
-      <h1>👤 Módulo de Usuario</h1>
-      <p>Información del usuario, perfil, ajustes personales, etc.</p>
+    <main class="contenido">
+        <div id="usuario" class="modulo activo">
+            <h1>👤 Módulo de Usuario</h1>
+            <p>Información del usuario, perfil, ajustes personales, etc.</p>
 
-      <div class="usuario-layout">
-        <!-- Opciones -->
-        <div class="usuario-opciones">
-          <button onclick="mostrarOpcionUsuario('eliminar')">🗑️ Eliminar usuario</button>
-          <button onclick="mostrarOpcionUsuario('cerrar')">🔒 Cerrar sesión</button>
-          <button onclick="mostrarOpcionUsuario('cambio')">🔄 Cambio rápido de usuario</button>
-          <button onclick="mostrarOpcionUsuario('alertas')">🚨 Alertas de sesiones</button>
+            <div class="usuario-layout">
+                <div class="usuario-opciones">
+                    <button onclick="mostrarOpcionUsuario('eliminar')">🗑 Eliminar usuario</button>
+                    <button onclick="mostrarOpcionUsuario('cerrar')">🔒 Cerrar sesión</button>
+                    <button onclick="mostrarOpcionUsuario('cambio')">🔄 Cambio rápido de usuario</button>
+                    <button onclick="mostrarOpcionUsuario('alertas')">🚨 Alertas de sesiones</button>
+                </div>
+
+                <div class="usuario-contenido" id="contenido-usuario">
+                    <p>Selecciona una opción a la izquierda para ver los detalles aquí.</p>
+                </div>
+            </div>
         </div>
 
-        <!-- Contenido de la opción -->
-        <div class="usuario-contenido" id="contenido-usuario">
-          <p>Selecciona una opción a la izquierda para ver los detalles aquí.</p>
+        <div id="Informes" class="modulo">
+            <h1>📄 Módulo de Informes</h1>
+            <p>Historial de informes generados.</p>
+            <div class="informes-lista">
+                <ul id="lista-informes" style="list-style: none; padding: 0;"></ul>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Módulos adicionales -->
-    <div id="control" class="modulo">
-      <h1>🎛️ Módulo de Control</h1>
-      <p>Panel de control para supervisar y administrar el sistema.</p>
-    </div>
+        <div id="control" class="modulo">
+            <h1>🎮 Módulo de Control</h1>
+            <p>Control de movimiento del robot mediante palanca virtual.</p>
 
-    <div id="configuracion" class="modulo">
-      <h1>⚙️ Módulo de Configuración</h1>
-      <p>Preferencias del sistema, ajustes de cuenta y más.</p>
-    </div>
+            <div style="text-align: center;">
+                <div id="joystick-base">
+                    <div id="joystick-handle"></div>
+                </div>
+                <div id="output">
+                    Esperando movimiento...
+                </div>
+                <p>Mueve la palanca para enviar comandos de velocidad al robot.</p>
+            </div>
+        </div>
 
-    <div id="manual" class="modulo">
-      <h1>📘 Manual de Usuario</h1>
-      <p>Guía para el uso correcto de la aplicación o sistema.</p>
-    </div>
+        <div id="configuracion" class="modulo">
+            <h1>⚙ Módulo de Configuración</h1>
+            <p>Preferencias del sistema, ajustes de cuenta y más.</p>
+        </div>
 
-    <div id="leyes" class="modulo">
-      <h1>⚖️ Leyes y Creadores</h1>
-      <p>Información legal, derechos de autor y créditos.</p>
-    </div>
-  </main>
+        <div id="manual" class="modulo">
+            <h1>📘 Manual de Usuario</h1>
+            <p>Guía para el uso correcto de la aplicación o sistema.</p>
+        </div>
 
-  <!-- Menú inferior -->
-  <nav>
-    <div onclick="mostrarModulo('control')">
-      <span>🎛️</span>
-      Control
-    </div>
-    <div onclick="mostrarModulo('manual')">
-      <span>📘</span>
-      Manual
-    </div>
-    <div onclick="mostrarModulo('usuario')">
-      <span>👤</span>
-      Usuario
-    </div>
-    <div onclick="mostrarModulo('leyes')">
-      <span>⚖️</span>
-      Leyes
-    </div>
-    <div onclick="mostrarModulo('configuracion')">
-      <span>⚙️</span>
-      Configuración
-    </div>
-  </nav>
+        <div id="leyes" class="modulo">
+            <h1>⚖ Leyes y Creadores</h1>
+            <p>Información legal, derechos de autor y créditos.</p>
+        </div>
+    </main>
 
-  <!-- Script -->
-  <script>
-    function mostrarModulo(id) {
-      const modulos = document.querySelectorAll('.modulo');
-      modulos.forEach(mod => mod.classList.remove('activo'));
-      document.getElementById(id).classList.add('activo');
-    }
+    <nav>
+        <div onclick="mostrarModulo('control')"><span>🎮</span>Control</div>
+        <div onclick="mostrarModulo('Informes')"><span>📄</span>Informes</div>
+        <div onclick="mostrarModulo('usuario')"><span>👤</span>Usuario</div>
+        <div onclick="mostrarModulo('manual')"><span>📘</span>Manual</div>
+        <div onclick="mostrarModulo('leyes')"><span>⚖</span>Leyes</div>
+        <div onclick="mostrarModulo('configuracion')"><span>⚙</span>Configuración</div>
+    </nav>
 
-    function mostrarOpcionUsuario(opcion) {
-      const contenedor = document.getElementById("contenido-usuario");
-      let contenido = "";
+    <script>
+        // === Datos simulados ===
+        const informes = [
+            { nombre: "Informe de rendimiento", fecha: "2025-10-01", archivo: "rendimiento.pdf" },
+            { nombre: "Informe de actividad", fecha: "2025-10-15", archivo: "actividad.pdf" },
+            { nombre: "Informe de seguridad", fecha: "2025-10-20", archivo: "seguridad.pdf" }
+        ];
 
-      switch (opcion) {
-        case 'eliminar':
-          contenido = "<h3>Eliminar Usuario</h3><p>Esta opción permite eliminar al usuario actual del sistema. Asegúrese de guardar los datos antes de continuar.</p>";
-          break;
-        case 'cerrar':
-          contenido = "<h3>Cerrar Sesión</h3><p>Utilice esta opción para cerrar su sesión de manera segura.</p>";
-          break;
-        case 'cambio':
-          contenido = "<h3>Cambio Rápido de Usuario</h3><p>Permite cambiar entre usuarios sin cerrar la sesión actual completamente.</p>";
-          break;
-        case 'alertas':
-          contenido = "<h3>Alertas de Sesiones</h3><p>Aquí verá alertas relacionadas con inicios de sesión sospechosos o múltiples sesiones activas.</p>";
-          break;
-        default:
-          contenido = "<p>Seleccione una opción para ver su contenido.</p>";
-      }
+        // Mostrar lista de informes
+        function mostrarInformes() {
+            const lista = document.getElementById("lista-informes");
+            lista.innerHTML = "";
 
-      contenedor.innerHTML = contenido;
-    }
-  </script>
+            informes.forEach(informe => {
+                const item = document.createElement("li");
+                item.style.marginBottom = "15px";
+                item.innerHTML = `
+                    <div style="background: white; padding: 15px; border-radius: 6px; box-shadow: 0 0 5px rgba(0,0,0,0.1);">
+                        <strong>${informe.nombre}</strong><br>
+                        <small>Fecha de creación: ${informe.fecha}</small><br>
+                        <a href="${informe.archivo}" download style="color: #002c5a;">⬇ Descargar</a>
+                    </div>
+                `;
+                lista.appendChild(item);
+            });
+        }
+
+        // Mostrar módulo
+        function mostrarModulo(id) {
+            const modulos = document.querySelectorAll('.modulo');
+            modulos.forEach(mod => mod.classList.remove('activo'));
+            const targetModulo = document.getElementById(id);
+
+            if (targetModulo) {
+                targetModulo.classList.add('activo');
+            } else {
+                console.warn(`Módulo con ID '${id}' no encontrado.`);
+            }
+
+            if (id === "Informes") {
+                mostrarInformes();
+            } else if (id === "control") {
+                updateJoystickDimensions(); 
+            }
+        }
+
+        // Opciones del usuario
+        function mostrarOpcionUsuario(opcion) {
+            const contenedor = document.getElementById("contenido-usuario");
+            let contenido = "";
+
+            switch (opcion) {
+                case 'eliminar':
+                    contenido = "<h3>Eliminar Usuario</h3><p>Esta opción permite eliminar al usuario actual del sistema. Asegúrese de guardar los datos antes de continuar.</p>";
+                    break;
+                case 'cerrar':
+                    contenido = "<h3>Cerrar Sesión</h3><p>Utilice esta opción para cerrar su sesión de manera segura.</p>";
+                    break;
+                case 'cambio':
+                    contenido = "<h3>Cambio Rápido de Usuario</h3><p>Permite cambiar entre usuarios sin cerrar la sesión actual completamente.</p>";
+                    break;
+                case 'alertas':
+                    contenido = "<h3>Alertas de Sesiones</h3><p>Aquí verá alertas relacionadas con inicios de sesión sospechosos o múltiples sesiones activas.</p>";
+                    break;
+                default:
+                    contenido = "<p>Seleccione una opción para ver su contenido.</p>";
+            }
+
+            contenedor.innerHTML = contenido;
+        }
+
+        // === Lógica del Joystick Virtual ===
+        const joystickBase = document.getElementById('joystick-base');
+        const joystickHandle = document.getElementById('joystick-handle');
+        const output = document.getElementById('output');
+
+        let baseRect = null;
+        let baseRadius = 0;
+        let baseCenter = { x: 0, y: 0 };
+        let isDragging = false;
+        let controlX = 0;
+        let controlY = 0;
+
+        function updateJoystickDimensions() {
+            if (joystickBase) {
+                baseRect = joystickBase.getBoundingClientRect();
+                baseRadius = baseRect.width / 2;
+                baseCenter = { 
+                    x: baseRect.left + baseRadius, 
+                    y: baseRect.top + baseRadius 
+                };
+            }
+        }
+        
+        function moveHandle(e) {
+            updateJoystickDimensions();
+
+            const clientX = e.clientX || e.touches[0]?.clientX;
+            const clientY = e.clientY || e.touches[0]?.clientY;
+            if (!clientX || !clientY) return;
+
+            let deltaX = clientX - baseCenter.x;
+            let deltaY = clientY - baseCenter.y;
+            
+            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+            if (distance > baseRadius) {
+                const angle = Math.atan2(deltaY, deltaX);
+                deltaX = baseRadius * Math.cos(angle);
+                deltaY = baseRadius * Math.sin(angle);
+            }
+
+            joystickHandle.style.left = `${deltaX + baseRadius}px`;
+            joystickHandle.style.top = `${deltaY + baseRadius}px`;
+
+            controlX = (deltaX / baseRadius).toFixed(2);
+            controlY = (-deltaY / baseRadius).toFixed(2);
+            
+            updateOutput();
+            sendControlSignal();
+        }
+
+        function startDrag(e) {
+            isDragging = true;
+            joystickHandle.style.cursor = 'grabbing';
+            e.preventDefault(); 
+        }
+
+        function whileDrag(e) {
+            if (isDragging) {
+                requestAnimationFrame(() => moveHandle(e));
+            }
+        }
+
+        function endDrag() {
+            isDragging = false;
+            joystickHandle.style.cursor = 'grab';
+            joystickHandle.style.left = '50%';
+            joystickHandle.style.top = '50%';
+            controlX = 0;
+            controlY = 0;
+            updateOutput();
+            sendControlSignal();
+        }
+
+        if (joystickHandle) {
+            joystickHandle.addEventListener('mousedown', startDrag);
+            document.addEventListener('mousemove', whileDrag);
+            document.addEventListener('mouseup', endDrag);
+
+            joystickHandle.addEventListener('touchstart', startDrag);
+            document.addEventListener('touchmove', whileDrag);
+            document.addEventListener('touchend', endDrag);
+
+            window.addEventListener('resize', updateJoystickDimensions);
+        }
+
+        function updateOutput() {
+            const x = parseFloat(controlX);
+            const y = parseFloat(controlY);
+            let directionText = "DETENIDO";
+            let arrow = "▪";
+
+            if (Math.abs(x) > 0.05 || Math.abs(y) > 0.05) { 
+                const angleRad = Math.atan2(y, x);
+                let angleDeg = angleRad * (180 / Math.PI);
+                if (angleDeg < 0) angleDeg += 360; 
+
+                if ((angleDeg >= 337.5 || angleDeg < 22.5) && y > 0.05) {
+                    directionText = "ADELANTE"; arrow = "↑";
+                } else if (angleDeg >= 22.5 && angleDeg < 67.5) {
+                    directionText = "ADELANTE-DERECHA"; arrow = "↗";
+                } else if (angleDeg >= 67.5 && angleDeg < 112.5 && x > 0.05) {
+                    directionText = "DERECHA"; arrow = "→";
+                } else if (angleDeg >= 112.5 && angleDeg < 157.5) {
+                    directionText = "ATRÁS-DERECHA"; arrow = "↘";
+                } else if (angleDeg >= 157.5 && angleDeg < 202.5 && y < -0.05) {
+                    directionText = "ATRÁS"; arrow = "↓";
+                } else if (angleDeg >= 202.5 && angleDeg < 247.5) {
+                    directionText = "ATRÁS-IZQUIERDA"; arrow = "↙";
+                } else if (angleDeg >= 247.5 && angleDeg < 292.5 && x < -0.05) {
+                    directionText = "IZQUIERDA"; arrow = "←";
+                } else if (angleDeg >= 292.5 && angleDeg < 337.5) {
+                    directionText = "ADELANTE-IZQUIERDA"; arrow = "↖";
+                } else {
+                    directionText = "DETENIDO"; arrow = "▪";
+                }
+            }
+            
+            const V_Izquierda = (y - x).toFixed(2);
+            const V_Derecha = (y + x).toFixed(2);
+
+            output.innerHTML = 
+                `<span class="direction-arrow">${arrow}</span> Estado: <strong>${directionText}</strong>\n` +
+                `Comando X (Giro): ${x}\n` + 
+                `Comando Y (Potencia): ${y}\n` +
+                `V_Motor_L: ${V_Izquierda}\n` +
+                `V_Motor_R: ${V_Derecha}`;
+        }
+
+        function sendControlSignal() {
+            const x = parseFloat(controlX);
+            const y = parseFloat(controlY);
+            const V_Izquierda = (y - x).toFixed(2);
+            const V_Derecha = (y + x).toFixed(2);
+            // Implementar comunicación real aquí si es necesario
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            updateJoystickDimensions();
+            updateOutput();
+            mostrarModulo('usuario'); 
+        });
+
+    </script>
 </body>
 </html>
+
+
 
 
