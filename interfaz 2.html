@@ -100,8 +100,8 @@
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             min-height: 150px;
         }
-
-        /* === Estilos del Joystick (Módulo Control) === */
+        
+        
         #joystick-base {
             width: 250px;
             height: 250px;
@@ -156,6 +156,14 @@
             }
 
             .usuario-opciones {
+                width: 100%;
+                flex: none;
+            }
+            .manual-layout {
+                flex-direction: column;
+            }
+
+            .manual-opciones {
                 width: 100%;
                 flex: none;
             }
@@ -236,7 +244,22 @@
         <div id="manual" class="modulo">
             <h1>📘 Manual de Usuario</h1>
             <p>Guía para el uso correcto de la aplicación o sistema.</p>
+            <div class="usuario-layout">
+                <div class="usuario-opciones">
+                    <button onclick="mostrarOpcionManual('control')">Módulo de control 🎮</button>
+                    <button onclick="mostrarOpcionManual('informes')">Módulo de informes 📄</button>
+                    <button onclick="mostrarOpcionManual('usuario')">Módulo de usuario 👤</button>
+                    <button onclick="mostrarOpcionManual('leyes')">Módulo de leyes ⚖</button>
+                    <button onclick="mostrarOpcionManual('configuración')">Módulo de configuración ⚙</button>
+                </div>
+
+                <div class="usuario-contenido" id="contenido-manual">
+                    <p>Selecciona una opción a la izquierda para ver los detalles aquí.</p>
+                </div>
+            </div>
         </div>
+
+        
 
         <div id="leyes" class="modulo">
             <h1>⚖ Leyes y Creadores</h1>
@@ -246,11 +269,11 @@
 
     <nav>
         <div onclick="mostrarModulo('control')"><span>🎮</span>Control</div>
-        <div onclick="mostrarModulo('Informes')"><span>📄</span>Informes</div>
+        <div onclick="mostrarModulo('informes')"><span>📄</span>Informes</div>
         <div onclick="mostrarModulo('usuario')"><span>👤</span>Usuario</div>
         <div onclick="mostrarModulo('manual')"><span>📘</span>Manual</div>
         <div onclick="mostrarModulo('leyes')"><span>⚖</span>Leyes</div>
-        <div onclick="mostrarModulo('configuracion')"><span>⚙</span>Configuración</div>
+        <div onclick="mostrarModulo('configuración')"><span>⚙</span>Configuración</div>
     </nav>
 
     <script>
@@ -320,9 +343,36 @@
                 default:
                     contenido = "<p>Seleccione una opción para ver su contenido.</p>";
             }
-
             contenedor.innerHTML = contenido;
-        }
+          }
+            // Opciones del manual
+        function mostrarOpcionManual(opcion) {
+            const información = document.getElementById("contenido-manual");
+            let contenido = "";
+
+            switch (opcion) {
+                case 'control':
+                    contenido = "<h3>Módulo de control</h3><p>Informacion acerca del módulo de control.</p>";
+                    break;
+                case 'informes':
+                    contenido = "<h3>Módulo de Informes</h3><p>Informacion acerca del módulo de informes.</p>";
+                    break;
+                case 'usuario':
+                    contenido = "<h3>Módulo de Usuario</h3><p>Informacion acerca del módulo de usuario.</p>";
+                    break;
+                case 'leyes':
+                    contenido = "<h3>Módulo de Leyes</h3><p>Informacion acerca del módulo de Leyes.</p>";
+                    break;
+                case 'configuración':
+                    contenido = "<h3>Módulo de Configuración</h3><p>Informacion acerca del módulo de configuración.</p>";
+                    break;
+                default:
+                    contenido = "<p>Seleccione una opción para ver su contenido.</p>";
+            }
+            información.innerHTML = contenido;
+          }
+            
+        
 
         // === Lógica del Joystick Virtual ===
         const joystickBase = document.getElementById('joystick-base');
@@ -470,7 +520,3 @@
     </script>
 </body>
 </html>
-
-
-
-
