@@ -12,6 +12,7 @@
             flex-direction: column;
             height: 100vh;
             background-color: rgb(241, 241, 241);
+            background: linear-gradient(to left, #0e2236, #8cb7d4);
         }
 
         main {
@@ -39,6 +40,7 @@
             width: 100%;
             box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
             z-index: 100;
+            
         }
 
         nav div {
@@ -191,89 +193,6 @@
             }
         }
     </style>
-</head>
-
-<body>
-    <main class="contenido">
-        <div id="usuario" class="modulo activo">
-            <h1>👤 Módulo de Usuario</h1>
-            <p>Información del usuario, perfil, ajustes personales, etc.</p>
-
-            <div class="usuario-layout">
-                <div class="usuario-opciones">
-                    <button onclick="mostrarOpcionUsuario('eliminar')">🗑 Eliminar usuario</button>
-                    <button onclick="mostrarOpcionUsuario('cerrar')">🔒 Cerrar sesión</button>
-                    <button onclick="mostrarOpcionUsuario('cambio')">🔄 Cambio rápido de usuario</button>
-                    <button onclick="mostrarOpcionUsuario('alertas')">🚨 Alertas de sesiones</button>
-                </div>
-
-                <div class="usuario-contenido" id="contenido-usuario">
-                    <p>Selecciona una opción a la izquierda para ver los detalles aquí.</p>
-                </div>
-            </div>
-        </div>
-
-        <div id="Informes" class="modulo">
-            <h1>📄 Módulo de Informes</h1>
-            <p>Historial de informes generados.</p>
-            
-        </div>
-
-        <div id="control" class="modulo">
-            <h1>🎮 Módulo de Control</h1>
-            <p>Control de movimiento del robot mediante palanca virtual.</p>
-
-            <div style="text-align: center;">
-                <div id="joystick-base">
-                    <div id="joystick-handle"></div>
-                </div>
-                <div id="output">
-                    Esperando movimiento...
-                </div>
-                <p>Mueve la palanca para enviar comandos de velocidad al robot.</p>
-            </div>
-        </div>
-
-        <div id="configuracion" class="modulo">
-            <h1>⚙ Módulo de Configuración</h1>
-            <p>Preferencias del sistema, ajustes de cuenta y más.</p>
-        </div>
-
-        <div id="manual" class="modulo">
-            <h1>📘 Manual de Usuario</h1>
-            <p>Guía para el uso correcto de la aplicación o sistema.</p>
-            <div class="usuario-layout">
-                <div class="usuario-opciones">
-                    <button onclick="mostrarOpcionManual('control')">Módulo de control 🎮</button>
-                    <button onclick="mostrarOpcionManual('informes')">Módulo de informes 📄</button>
-                    <button onclick="mostrarOpcionManual('usuario')">Módulo de usuario 👤</button>
-                    <button onclick="mostrarOpcionManual('leyes')">Módulo de leyes ⚖</button>
-                    <button onclick="mostrarOpcionManual('configuración')">Módulo de configuración ⚙</button>
-                </div>
-
-                <div class="usuario-contenido" id="contenido-manual">
-                    <p>Selecciona una opción a la izquierda para ver los detalles aquí.</p>
-                </div>
-            </div>
-        </div>
-
-        
-
-        <div id="leyes" class="modulo">
-            <h1>⚖ Leyes y Creadores</h1>
-            <p>Información legal, derechos de autor y créditos.</p>
-        </div>
-    </main>
-
-    <nav>
-        <div onclick="mostrarModulo('control')"><span>🎮</span>Control</div>
-        <div onclick="mostrarModulo('informes')"><span>📄</span>Informes</div>
-        <div onclick="mostrarModulo('usuario')"><span>👤</span>Usuario</div>
-        <div onclick="mostrarModulo('manual')"><span>📘</span>Manual</div>
-        <div onclick="mostrarModulo('leyes')"><span>⚖</span>Leyes</div>
-        <div onclick="mostrarModulo('configuración')"><span>⚙</span>Configuración</div>
-    </nav>
-
     <script>
         // === Datos simulados ===
         const informes = [
@@ -516,6 +435,91 @@
         });
 
     </script>
+</head>
+
+<body>
+    <main class="contenido">
+        <div id="usuario" class="modulo activo">
+            <h1>👤 Módulo de Usuario</h1>
+            <p>Información del usuario, perfil, ajustes personales, etc.</p>
+
+            <div class="usuario-layout">
+                <div class="usuario-opciones">
+                    <button onclick="mostrarOpcionUsuario('eliminar')">🗑 Eliminar usuario</button>
+                    <button onclick="mostrarOpcionUsuario('cerrar')">🔒 Cerrar sesión</button>
+                    <button onclick="mostrarOpcionUsuario('cambio')">🔄 Cambio rápido de usuario</button>
+                    <button onclick="mostrarOpcionUsuario('alertas')">🚨 Alertas de sesiones</button>
+                </div>
+
+                <div class="usuario-contenido" id="contenido-usuario">
+                    <p>Selecciona una opción a la izquierda para ver los detalles aquí.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="Informes" class="modulo">
+            <h1>📄 Módulo de Informes</h1>
+            <p>Historial de informes generados.</p>
+            <div class="informes-lista">
+                <ul id="lista-informes" style="list-style: none; padding: 0;"></ul>
+            </div>
+        </div>
+
+        <div id="control" class="modulo">
+            <h1>🎮 Módulo de Control</h1>
+            <p>Control de movimiento del robot mediante palanca virtual.</p>
+
+            <div style="text-align: center;">
+                <div id="joystick-base">
+                    <div id="joystick-handle"></div>
+                </div>
+                <div id="output">
+                    Esperando movimiento...
+                </div>
+                <p>Mueve la palanca para enviar comandos de velocidad al robot.</p>
+            </div>
+        </div>
+
+        <div id="configuracion" class="modulo">
+            <h1>⚙ Módulo de Configuración</h1>
+            <p>Preferencias del sistema, ajustes de cuenta y más.</p>
+        </div>
+
+        <div id="manual" class="modulo">
+            <h1>📘 Manual de Usuario</h1>
+            <p>Guía para el uso correcto de la aplicación o sistema.</p>
+            <div class="usuario-layout">
+                <div class="usuario-opciones">
+                    <button onclick="mostrarOpcionManual('control')">Módulo de control 🎮</button>
+                    <button onclick="mostrarOpcionManual('informes')">Módulo de informes 📄</button>
+                    <button onclick="mostrarOpcionManual('usuario')">Módulo de usuario 👤</button>
+                    <button onclick="mostrarOpcionManual('leyes')">Módulo de leyes ⚖</button>
+                    <button onclick="mostrarOpcionManual('configuración')">Módulo de configuración ⚙</button>
+                </div>
+
+                <div class="usuario-contenido" id="contenido-manual">
+                    <p>Selecciona una opción a la izquierda para ver los detalles aquí.</p>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <div id="leyes" class="modulo">
+            <h1>⚖ Leyes y Creadores</h1>
+            <p>Información legal, derechos de autor y créditos.</p>
+        </div>
+    </main>
+
+    <nav>
+        <div onclick="mostrarModulo('control')"><span>🎮</span>Control</div>
+        <div onclick="mostrarModulo('informes')"><span>📄</span>Informes</div>
+        <div onclick="mostrarModulo('usuario')"><span>👤</span>Usuario</div>
+        <div onclick="mostrarModulo('manual')"><span>📘</span>Manual</div>
+        <div onclick="mostrarModulo('leyes')"><span>⚖</span>Leyes</div>
+        <div onclick="mostrarModulo('configuración')"><span>⚙</span>Configuración</div>
+    </nav>
+
+    
 </body>
 </html>
-
