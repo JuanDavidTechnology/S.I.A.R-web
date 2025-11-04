@@ -12,7 +12,7 @@
             flex-direction: column;
             height: 100vh;
             background-color: rgb(241, 241, 241);
-            background: linear-gradient(to left, #0e2236, #8cb7d4);
+            background: linear-gradient(to left, #356fa9, #8cb7d4);
         }
 
         main {
@@ -40,7 +40,6 @@
             width: 100%;
             box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
             z-index: 100;
-            
         }
 
         nav div {
@@ -64,10 +63,9 @@
         }
 
         .contenido {
-            padding-bottom: 70px; /* espacio al menú inferior */
+            padding-bottom: 70px;
         }
 
-        /* === Diseño interno del Módulo de Usuario === */
         .usuario-layout {
             display: flex;
             gap: 20px;
@@ -102,7 +100,7 @@
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             min-height: 150px;
         }
-        
+
         
         #joystick-base {
             width: 250px;
@@ -116,17 +114,20 @@
         }
 
         #joystick-handle {
+            
             width: 80px;
             height: 80px;
             background-color: #007bff;
             border-radius: 50%;
             position: absolute;
-            top: 50%;
+            /* top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%); */
             cursor: grab;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
             border: 3px solid white;
+            
+
         }
 
         #output {
@@ -138,7 +139,7 @@
             width: 90%;
             max-width: 300px;
             margin: 20px auto;
-            white-space: pre; 
+            white-space: pre;
             text-align: left;
         }
 
@@ -161,6 +162,7 @@
                 width: 100%;
                 flex: none;
             }
+
             .manual-layout {
                 flex-direction: column;
             }
@@ -181,18 +183,23 @@
             nav div span {
                 font-size: 1.2em;
             }
-            
+
             #joystick-base {
                 width: 200px;
                 height: 200px;
             }
-            
+
             #joystick-handle {
-                width: 60px;
-                height: 60px;
+            width: 60px;
+            height: 60px;
+            /* top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); */
             }
+
         }
     </style>
+
     <script>
         // === Datos simulados ===
         const informes = [
@@ -201,7 +208,6 @@
             { nombre: "Informe de seguridad", fecha: "2025-10-20", archivo: "seguridad.pdf" }
         ];
 
-        // Mostrar lista de informes
         function mostrarInformes() {
             const lista = document.getElementById("lista-informes");
             lista.innerHTML = "";
@@ -220,7 +226,6 @@
             });
         }
 
-        // Mostrar módulo
         function mostrarModulo(id) {
             const modulos = document.querySelectorAll('.modulo');
             modulos.forEach(mod => mod.classList.remove('activo'));
@@ -228,144 +233,81 @@
 
             if (targetModulo) {
                 targetModulo.classList.add('activo');
-            } else {
-                console.warn(`Módulo con ID '${id}' no encontrado.`);
             }
 
             if (id === "Informes") {
                 mostrarInformes();
             } else if (id === "control") {
-                updateJoystickDimensions(); 
+                updateJoystickDimensions();
             }
         }
 
-        // Opciones del usuario
         function mostrarOpcionUsuario(opcion) {
             const contenedor = document.getElementById("contenido-usuario");
             let contenido = "";
 
             switch (opcion) {
                 case 'eliminar':
-                    contenido = "<h3>Eliminar Usuario</h3><p>Esta opción permite eliminar al usuario actual del sistema. Asegúrese de guardar los datos antes de continuar.</p>";
+                    contenido = "<h3>Eliminar Usuario</h3><p>Permite eliminar el usuario actual del sistema.</p>";
                     break;
                 case 'cerrar':
-                    contenido = "<h3>Cerrar Sesión</h3><p>Utilice esta opción para cerrar su sesión de manera segura.</p>";
+                    contenido = "<h3>Cerrar Sesión</h3><p>Utilice esta opción para cerrar su sesión.</p>";
                     break;
                 case 'cambio':
-                    contenido = "<h3>Cambio Rápido de Usuario</h3><p>Permite cambiar entre usuarios sin cerrar la sesión actual completamente.</p>";
+                    contenido = "<h3>Cambio Rápido de Usuario</h3><p>Permite cambiar entre usuarios.</p>";
                     break;
                 case 'alertas':
-                    contenido = "<h3>Alertas de Sesiones</h3><p>Aquí verá alertas relacionadas con inicios de sesión sospechosos o múltiples sesiones activas.</p>";
+                    contenido = "<h3>Alertas de Sesiones</h3><p>Alertas sobre inicios de sesión sospechosos.</p>";
                     break;
                 default:
                     contenido = "<p>Seleccione una opción para ver su contenido.</p>";
             }
             contenedor.innerHTML = contenido;
-          }
-            // Opciones del manual
+        }
+
         function mostrarOpcionManual(opcion) {
             const información = document.getElementById("contenido-manual");
             let contenido = "";
 
             switch (opcion) {
                 case 'control':
-                    contenido = "<h3>Módulo de control</h3><p>Informacion acerca del módulo de control.</p>";
+                    contenido = "<h3>Módulo de control</h3><p>Información del módulo de control.</p>";
                     break;
                 case 'informes':
-                    contenido = "<h3>Módulo de Informes</h3><p>Informacion acerca del módulo de informes.</p>";
+                    contenido = "<h3>Módulo de informes</h3><p>Información del módulo de informes.</p>";
                     break;
                 case 'usuario':
-                    contenido = "<h3>Módulo de Usuario</h3><p>Informacion acerca del módulo de usuario.</p>";
+                    contenido = "<h3>Módulo de usuario</h3><p>Información del módulo de usuario.</p>";
                     break;
                 case 'leyes':
-                    contenido = "<h3>Módulo de Leyes</h3><p>Informacion acerca del módulo de Leyes.</p>";
+                    contenido = "<h3>Módulo de leyes</h3><p>Información del módulo de leyes.</p>";
                     break;
                 case 'configuración':
-                    contenido = "<h3>Módulo de Configuración</h3><p>Informacion acerca del módulo de configuración.</p>";
+                    contenido = "<h3>Módulo de configuración</h3><p>Información del módulo de configuración.</p>";
                     break;
                 default:
                     contenido = "<p>Seleccione una opción para ver su contenido.</p>";
             }
             información.innerHTML = contenido;
-          }
-            
-        
+        }
 
-        // === Lógica del Joystick Virtual ===
-        const joystickBase = document.getElementById('joystick-base');
-        const joystickHandle = document.getElementById('joystick-handle');
-        const output = document.getElementById('output');
-
-        let baseRect = null;
-        let baseRadius = 0;
-        let baseCenter = { x: 0, y: 0 };
+        // === JOYSTICK ===
+        let joystickBase, joystickHandle, output;
+        let baseRect = null, baseRadius = 0, baseCenter = { x: 0, y: 0 };
+        let handleWidth = 0, handleHeight = 0;
         let isDragging = false;
-        let controlX = 0;
-        let controlY = 0;
+        let controlX = 0, controlY = 0;
 
-        function updateJoystickDimensions() {
-            if (joystickBase) {
-                baseRect = joystickBase.getBoundingClientRect();
-                baseRadius = baseRect.width / 2;
-                baseCenter = { 
-                    x: baseRect.left + baseRadius, 
-                    y: baseRect.top + baseRadius 
-                };
-            }
-        }
-        
-        function moveHandle(e) {
+        document.addEventListener('DOMContentLoaded', () => {
+            joystickBase = document.getElementById('joystick-base');
+            joystickHandle = document.getElementById('joystick-handle');
+            output = document.getElementById('output');
+
             updateJoystickDimensions();
-
-            const clientX = e.clientX || e.touches[0]?.clientX;
-            const clientY = e.clientY || e.touches[0]?.clientY;
-            if (!clientX || !clientY) return;
-
-            let deltaX = clientX - baseCenter.x;
-            let deltaY = clientY - baseCenter.y;
-            
-            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-            if (distance > baseRadius) {
-                const angle = Math.atan2(deltaY, deltaX);
-                deltaX = baseRadius * Math.cos(angle);
-                deltaY = baseRadius * Math.sin(angle);
-            }
-
-            joystickHandle.style.left = `${deltaX + baseRadius}px`;
-            joystickHandle.style.top = `${deltaY + baseRadius}px`;
-
-            controlX = (deltaX / baseRadius).toFixed(2);
-            controlY = (-deltaY / baseRadius).toFixed(2);
-            
             updateOutput();
-            sendControlSignal();
-        }
 
-        function startDrag(e) {
-            isDragging = true;
-            joystickHandle.style.cursor = 'grabbing';
-            e.preventDefault(); 
-        }
+            mostrarModulo('usuario');
 
-        function whileDrag(e) {
-            if (isDragging) {
-                requestAnimationFrame(() => moveHandle(e));
-            }
-        }
-
-        function endDrag() {
-            isDragging = false;
-            joystickHandle.style.cursor = 'grab';
-            joystickHandle.style.left = '50%';
-            joystickHandle.style.top = '50%';
-            controlX = 0;
-            controlY = 0;
-            updateOutput();
-            sendControlSignal();
-        }
-
-        if (joystickHandle) {
             joystickHandle.addEventListener('mousedown', startDrag);
             document.addEventListener('mousemove', whileDrag);
             document.addEventListener('mouseup', endDrag);
@@ -375,6 +317,68 @@
             document.addEventListener('touchend', endDrag);
 
             window.addEventListener('resize', updateJoystickDimensions);
+        });
+
+        function updateJoystickDimensions() {
+           if (joystickBase && joystickHandle) {
+          baseRect = joystickBase.getBoundingClientRect();
+          baseRadius = baseRect.width / 2;
+          baseCenter = {
+              x: baseRect.left + baseRadius,
+              y: baseRect.top + baseRadius
+          };
+          handleWidth = joystickHandle.offsetWidth;
+          handleHeight = joystickHandle.offsetHeight;
+          joystickHandle.style.left = `${baseRadius - handleWidth / 2}px`;
+          joystickHandle.style.top = `${baseRadius - handleHeight / 2}px`;
+        }
+
+        }
+        function moveHandle(e) {
+            const clientX = e.clientX || e.touches[0]?.clientX;
+            const clientY = e.clientY || e.touches[0]?.clientY;
+            if (!clientX || !clientY) return;
+
+            let deltaX = clientX - baseCenter.x;
+            let deltaY = clientY - baseCenter.y;
+
+            const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
+
+            if (distance > baseRadius) {
+                const angle = Math.atan2(deltaY, deltaX);
+                deltaX = baseRadius * Math.cos(angle);
+                deltaY = baseRadius * Math.sin(angle);
+            }
+
+            joystickHandle.style.left = `${deltaX + baseRadius - joystickHandle.offsetWidth / 2}px`;
+            joystickHandle.style.top = `${deltaY + baseRadius - joystickHandle.offsetHeight / 2}px`;
+
+            controlX = (deltaX / baseRadius).toFixed(2);
+            controlY = (-deltaY / baseRadius).toFixed(2);
+
+            updateOutput();
+        }
+
+        function startDrag(e) {
+            isDragging = true;
+            joystickHandle.style.cursor = 'grabbing';
+            e.preventDefault();
+        }
+
+        function whileDrag(e) {
+            if (isDragging) {
+                requestAnimationFrame(() => moveHandle(e));
+            }
+        }
+
+        function endDrag() {
+             isDragging = false;
+            joystickHandle.style.cursor = 'grab';
+            joystickHandle.style.left = `${baseRadius - handleWidth / 2}px`;
+            joystickHandle.style.top = `${baseRadius - handleHeight / 2}px`;
+            controlX = 0;
+            controlY = 0;
+            updateOutput();
         }
 
         function updateOutput() {
@@ -383,57 +387,23 @@
             let directionText = "DETENIDO";
             let arrow = "▪";
 
-            if (Math.abs(x) > 0.05 || Math.abs(y) > 0.05) { 
-                const angleRad = Math.atan2(y, x);
-                let angleDeg = angleRad * (180 / Math.PI);
-                if (angleDeg < 0) angleDeg += 360; 
-
-                if ((angleDeg >= 337.5 || angleDeg < 22.5) && y > 0.05) {
-                    directionText = "ADELANTE"; arrow = "↑";
-                } else if (angleDeg >= 22.5 && angleDeg < 67.5) {
-                    directionText = "ADELANTE-DERECHA"; arrow = "↗";
-                } else if (angleDeg >= 67.5 && angleDeg < 112.5 && x > 0.05) {
-                    directionText = "DERECHA"; arrow = "→";
-                } else if (angleDeg >= 112.5 && angleDeg < 157.5) {
-                    directionText = "ATRÁS-DERECHA"; arrow = "↘";
-                } else if (angleDeg >= 157.5 && angleDeg < 202.5 && y < -0.05) {
-                    directionText = "ATRÁS"; arrow = "↓";
-                } else if (angleDeg >= 202.5 && angleDeg < 247.5) {
-                    directionText = "ATRÁS-IZQUIERDA"; arrow = "↙";
-                } else if (angleDeg >= 247.5 && angleDeg < 292.5 && x < -0.05) {
-                    directionText = "IZQUIERDA"; arrow = "←";
-                } else if (angleDeg >= 292.5 && angleDeg < 337.5) {
-                    directionText = "ADELANTE-IZQUIERDA"; arrow = "↖";
-                } else {
-                    directionText = "DETENIDO"; arrow = "▪";
-                }
+            if (Math.abs(x) > 0.05 || Math.abs(y) > 0.05) {
+                if (y > 0.2) { directionText = "ADELANTE"; arrow = "↑"; }
+                else if (y < -0.2) { directionText = "ATRÁS"; arrow = "↓"; }
+                else if (x > 0.2) { directionText = "DERECHA"; arrow = "→"; }
+                else if (x < -0.2) { directionText = "IZQUIERDA"; arrow = "←"; }
             }
-            
+
             const V_Izquierda = (y - x).toFixed(2);
             const V_Derecha = (y + x).toFixed(2);
 
-            output.innerHTML = 
+            output.innerHTML =
                 `<span class="direction-arrow">${arrow}</span> Estado: <strong>${directionText}</strong>\n` +
-                `Comando X (Giro): ${x}\n` + 
+                `Comando X (Giro): ${x}\n` +
                 `Comando Y (Potencia): ${y}\n` +
                 `V_Motor_L: ${V_Izquierda}\n` +
                 `V_Motor_R: ${V_Derecha}`;
         }
-
-        function sendControlSignal() {
-            const x = parseFloat(controlX);
-            const y = parseFloat(controlY);
-            const V_Izquierda = (y - x).toFixed(2);
-            const V_Derecha = (y + x).toFixed(2);
-            // Implementar comunicación real aquí si es necesario
-        }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            updateJoystickDimensions();
-            updateOutput();
-            mostrarModulo('usuario'); 
-        });
-
     </script>
 </head>
 
@@ -473,9 +443,7 @@
                 <div id="joystick-base">
                     <div id="joystick-handle"></div>
                 </div>
-                <div id="output">
-                    Esperando movimiento...
-                </div>
+                <div id="output">Esperando movimiento...</div>
                 <p>Mueve la palanca para enviar comandos de velocidad al robot.</p>
             </div>
         </div>
@@ -503,8 +471,6 @@
             </div>
         </div>
 
-        
-
         <div id="leyes" class="modulo">
             <h1>⚖ Leyes y Creadores</h1>
             <p>Información legal, derechos de autor y créditos.</p>
@@ -513,13 +479,11 @@
 
     <nav>
         <div onclick="mostrarModulo('control')"><span>🎮</span>Control</div>
-        <div onclick="mostrarModulo('informes')"><span>📄</span>Informes</div>
+        <div onclick="mostrarModulo('Informes')"><span>📄</span>Informes</div>
         <div onclick="mostrarModulo('usuario')"><span>👤</span>Usuario</div>
         <div onclick="mostrarModulo('manual')"><span>📘</span>Manual</div>
         <div onclick="mostrarModulo('leyes')"><span>⚖</span>Leyes</div>
-        <div onclick="mostrarModulo('configuración')"><span>⚙</span>Configuración</div>
+        <div onclick="mostrarModulo('configuracion')"><span>⚙</span>Configuración</div>
     </nav>
-
-    
 </body>
 </html>
